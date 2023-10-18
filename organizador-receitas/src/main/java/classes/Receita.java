@@ -2,25 +2,27 @@ package classes;
 
 import enuns.TipoReceita;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Receita {
 
-    private String Titulo;
+    private String titulo;
     private TipoReceita tipo;
-    private LinkedList<Ingredientes> listaIngredientes = new LinkedList<>();
+    private ArrayList<Ingredientes> listaIngredientes = new ArrayList<>();
     private String modoDePreparo;
 
-    public Receita(String titulo) {
-        Titulo = titulo;
+    public Receita(String titulo, TipoReceita tipo) {
+        this.titulo = titulo;
+        this.tipo = tipo;
     }
 
+
     public String getTitulo() {
-        return Titulo;
+        return titulo;
     }
 
     public void setTitulo(String titulo) {
-        Titulo = titulo;
+        this.titulo = titulo;
     }
 
     public TipoReceita getTipo() {
@@ -31,13 +33,14 @@ public class Receita {
         this.tipo = tipo;
     }
 
-    public LinkedList<Ingredientes> getListaIngredientes() {
+    public ArrayList<Ingredientes> getListaIngredientes() {
         return listaIngredientes;
     }
 
-    public void setListaIngredientes(Ingredientes ingrediente) {
+    public void addIngredientes(Ingredientes ingrediente) {
         this.listaIngredientes.add(ingrediente);
     }
+    public void removeListaIngredientes(int index){ this.listaIngredientes.remove(index);}
 
     public String getModoDePreparo() {
         return modoDePreparo;
