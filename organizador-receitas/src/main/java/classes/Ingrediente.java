@@ -2,13 +2,13 @@ package classes;
 
 import enuns.TipoUnidadeMedida;
 
-public class Ingredientes {
+public class Ingrediente {
 
     private float quantidade;
     private TipoUnidadeMedida tipoMedida;
     private String nome;
 
-    public Ingredientes(int quantidade, TipoUnidadeMedida tipoMedida,String nome) {
+    public Ingrediente(int quantidade, TipoUnidadeMedida tipoMedida, String nome) {
         this.quantidade = quantidade;
         this.nome = nome;
         this.tipoMedida = tipoMedida;

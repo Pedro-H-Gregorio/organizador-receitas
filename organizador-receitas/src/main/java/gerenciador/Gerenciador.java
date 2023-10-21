@@ -1,7 +1,7 @@
 package gerenciador;
 
 import armazenamento.Armazenamento;
-import classes.Ingredientes;
+import classes.Ingrediente;
 import classes.Receita;
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
@@ -13,14 +13,21 @@ import java.util.Arrays;
 public class Gerenciador implements IGerenciador {
     @Override
     public void add(String titulo, TipoReceita tipo) {
-        Armazenamento.listaReceitas.add(new Receita(titulo, tipo));
+        Armazenamento.listaReceitas.add(new Receita(Armazenamento.id,titulo, tipo));
+        Armazenamento.id++;
         System.out.println(String.join(" ", "A receita", titulo, "foi feita com sucesso."));
     }
 
     @Override
     public void addIngrediente(int quantidade, TipoUnidadeMedida tipoUnidade, String nome) {
-        getLastReceita().addIngredientes(new Ingredientes(quantidade, tipoUnidade, nome));
+        getLastReceita().addIngrediente(new Ingrediente(quantidade, tipoUnidade, nome));
         System.out.println("O ingrediente " + nome + " foi adicionando");
+    }
+
+    @Override
+    public void removeIngrediente(int idReceita, int idIngrediente) {
+        Receita receita = getReceitaById(idReceita);
+        receita.removeIngrediente(idIngrediente);
     }
 
     @Override
@@ -29,56 +36,76 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
-    public void update(int index) {
-
+    public void updateTitulo(int idReceita, String titulo) {
+        getReceitaById(idReceita).setTitulo(titulo);
     }
 
     @Override
-    public void updade(Receita receita, int index) {
-
+    public void updateModoDePreparo(int idReceita, String modoDePreparo) {
+        getReceitaById(idReceita).setModoDePreparo(modoDePreparo);
     }
 
     @Override
-    public void readReceita() {
+    public void updateTipo(int idReceita, TipoReceita tipo) {
+        getReceitaById(idReceita).setTipo(tipo);
+    }
+
+    @Override
+    public void updadeIngrediente(int idReceita, int idIngrediente, Ingrediente ingrediente) {
+        getReceitaById(idReceita).updateIngrediente(idIngrediente,ingrediente);
+    }
+
+    @Override
+    public void readReceitas() {
         listarReceitasPorFiltro(Armazenamento.listaReceitas);
     }
 
     @Override
-    public void readReceita(TipoReceita... tipos) {
+    public void readReceitas(TipoReceita... tipos) {
         ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) Armazenamento.listaReceitas.stream().filter(receita -> Arrays.asList(tipos).contains(receita.getTipo())).toList();
         listarReceitasPorFiltro(receitasFiltradas);
     }
 
     @Override
-    public void readReceita(String titulo) {
+    public void readReceitas(String titulo) {
         ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) Armazenamento.listaReceitas.stream().filter(receita -> receita.getTitulo().contains(titulo)).toList();
         listarReceitasPorFiltro(receitasFiltradas);
     }
 
     @Override
-    public Receita getReceita(int index) {
-        return Armazenamento.listaReceitas.get(index);
+    public void readReceita(int idReceita) {
+        Receita receita = getReceitaById(idReceita);
+        System.out.println(receita.getTitulo());
+        System.out.println(receita.getTipo());
+        listarIngredientes(receita.getListaIngredientes());
+        System.out.println(receita.getModoDePreparo());
     }
 
     @Override
-    public void delete(int index) {
-        System.out.println("A receita " + getReceita(index).getTitulo() + " foi removida.");
-        Armazenamento.listaReceitas.remove((index));
+    public Receita getReceitaById(int id) {
+        return (Receita) Armazenamento.listaReceitas.stream().filter(receita -> receita.getId() == id);
     }
 
     @Override
-    public void delete(Receita receita, int index) {
-        receita.getListaIngredientes().remove(index);
+    public void delete(int idReceita) {
+        Armazenamento.listaReceitas.removeIf(receitas -> receitas.getId() == idReceita);
+        System.out.println("A receita " + getReceitaById(idReceita).getTitulo() + " foi removida.");
+    }
+
+    @Override
+    public void listarIngredientes(ArrayList<Ingrediente> ingredientes){
+        for(int i = 0; i<=ingredientes.size(); i++){
+            System.out.printf("id: %s | %s -  %s", i, ingredientes.get(i).getQuantidade(), ingredientes.get(i).getNome());
+        }
     }
 
     private Receita getLastReceita(){
-        return getReceita(Armazenamento.listaReceitas.size() - 1);
+        return Armazenamento.listaReceitas.get(Armazenamento.listaReceitas.size() - 1);
     }
 
     private void listarReceitasPorFiltro(ArrayList<Receita> receitas){
-        for(int i = 0; i <= receitas.size(); i++ ){
-            System.out.printf("%s - %s", i, receitas.get(i));
+        for (Receita receita: receitas) {
+            System.out.printf("%s - %s", receita.getId(), receita.getTitulo());
         }
-        // Corrigir a entrada de indexs
     }
 }
