@@ -95,7 +95,13 @@ public class Gerenciador implements IGerenciador {
     @Override
     public void listarIngredientes(ArrayList<Ingrediente> ingredientes){
         for(int i = 0; i<=ingredientes.size(); i++){
-            System.out.printf("id: %s | %s -  %s", i, ingredientes.get(i).getQuantidade(), ingredientes.get(i).getNome());
+            System.out.printf("id: %s | Quantidade: %s%s (%s -> %s) -  %s",
+                    i,
+                    ingredientes.get(i).getQuantidade()
+                    ,ingredientes.get(i).getTipoMedida().getKey()
+                    ,ingredientes.get(i).getTipoMedida().getKey()
+                    ,ingredientes.get(i).getTipoMedida().getDescricao()
+                    ,ingredientes.get(i).getNome());
         }
     }
 

@@ -17,16 +17,9 @@ public class Ingrediente {
     public float getQuantidade() {
         return quantidade;
     }
-
-    public void setQuantidade(float quantidade) {
-        this.quantidade = quantidade;
-    }
-
+    public TipoUnidadeMedida getTipoMedida(){return tipoMedida;}
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 }
