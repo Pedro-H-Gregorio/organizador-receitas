@@ -8,7 +8,7 @@ public class Ingrediente {
     private TipoUnidadeMedida tipoMedida;
     private String nome;
 
-    public Ingrediente(int quantidade, TipoUnidadeMedida tipoMedida, String nome) {
+    public Ingrediente(float quantidade, TipoUnidadeMedida tipoMedida, String nome) {
         this.quantidade = quantidade;
         this.nome = nome;
         this.tipoMedida = tipoMedida;
@@ -17,7 +17,11 @@ public class Ingrediente {
     public float getQuantidade() {
         return quantidade;
     }
-    public TipoUnidadeMedida getTipoMedida(){return tipoMedida;}
+
+    public TipoUnidadeMedida getTipoMedida() {
+        return tipoMedida;
+    }
+
     public String getNome() {
         return nome;
     }
