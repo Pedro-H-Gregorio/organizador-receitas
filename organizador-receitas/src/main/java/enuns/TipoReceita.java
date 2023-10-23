@@ -1,5 +1,7 @@
 package enuns;
 
+import java.util.Arrays;
+
 public enum TipoReceita {
 
     VEGETARIANA("v", "Vegetariano"),
@@ -26,5 +28,9 @@ public enum TipoReceita {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public static String[] getTiposReceitasInString() {
+        return Arrays.stream(TipoReceita.values()).map(TipoReceita::getDescricao).toList().toArray(new String[0]);
     }
 }

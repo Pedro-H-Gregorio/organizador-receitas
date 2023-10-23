@@ -17,13 +17,11 @@ public class MenuPrincipal extends InterfaceTextual {
     }
 
     public TipoUnidadeMedida escolherUnidadeMedida() {
-        return TipoUnidadeMedida.values()[new InterfaceTextual("Tipo da Unidade de Medida",
-                "Colher de sopa", "Colher de chá", "Gramas", "Unidade").listarOpcoes() - 1];
+        return TipoUnidadeMedida.values()[new InterfaceTextual("Tipo da Unidade de Medida", TipoUnidadeMedida.getTiposUnidadeMedidaInString()).listarOpcoes() - 1];
     }
 
     public TipoReceita escolherTipoReceita() {
-        return TipoReceita.values()[new InterfaceTextual("Tipo da Receita", "Vegetariano",
-                "Massas", "Doces", "Carnes", "Sobremesas", "Jantar", "Almoço", "Café da Manhã", "Vegana")
+        return TipoReceita.values()[new InterfaceTextual("Tipo da Receita", TipoReceita.getTiposReceitasInString())
                 .listarOpcoes() - 1];
     }
 

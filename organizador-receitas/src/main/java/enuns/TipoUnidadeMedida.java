@@ -1,5 +1,7 @@
 package enuns;
 
+import java.util.Arrays;
+
 public enum TipoUnidadeMedida {
     COLHER_SOPA("cs", "Colher de sopa"),
     COLHER_CHA("cc", "Colher de chá"),
@@ -20,5 +22,9 @@ public enum TipoUnidadeMedida {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public static String[] getTiposUnidadeMedidaInString() {
+        return Arrays.stream(TipoUnidadeMedida.values()).map(TipoUnidadeMedida::getDescricao).toList().toArray(new String[0]);
     }
 }

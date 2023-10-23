@@ -2,9 +2,10 @@ package classes;
 
 import enuns.TipoReceita;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Receita {
+public class Receita implements Serializable {
 
     private int id;
     private String titulo;
@@ -65,5 +66,13 @@ public class Receita {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setListaIngredientes(ArrayList<Ingrediente> listaIngredientes) {
+        this.listaIngredientes = listaIngredientes;
     }
 }
