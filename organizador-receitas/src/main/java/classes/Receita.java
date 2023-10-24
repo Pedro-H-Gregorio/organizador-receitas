@@ -13,10 +13,6 @@ public class Receita implements Serializable {
     private ArrayList<Ingrediente> listaIngredientes = new ArrayList<>();
     private String modoDePreparo;
 
-    public Receita(String titulo, TipoReceita tipo) {
-        this(0, titulo, tipo);
-    }
-
     public Receita(int id, String titulo, TipoReceita tipo) {
         this.id = id;
         this.titulo = titulo;

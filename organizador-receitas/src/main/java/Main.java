@@ -1,5 +1,3 @@
-import classes.Ingrediente;
-import classes.Receita;
 import gerenciador.Gerenciador;
 import ui.MenuPrincipal;
 
@@ -17,13 +15,9 @@ public class Main {
             opcaoSelecionada = menu.listarOpcoes();
             switch (opcaoSelecionada) {
                 case 1:
-                    Receita receita = menu.criarReceita();
-                    gerenciador.add(receita.getTitulo(), receita.getTipo());
-                    for (Ingrediente ingrediente : receita.getListaIngredientes())
-                        gerenciador.addIngrediente(ingrediente);
-                    gerenciador.addModoDePreparo(receita.getModoDePreparo());
-                    menu.escrever("Receita de %s adicionada com sucesso!", receita.getTitulo());
-                    menu.mostrarReceita(receita);
+                    menu.criarReceita();
+                    menu.escrever("Receita de %s adicionada com sucesso!", gerenciador.getLastReceita().getTitulo());
+                    menu.mostrarReceita(gerenciador.getLastReceita().getId());
                     break;
                 case 2:
                     if (gerenciador.readReceitas().isEmpty())

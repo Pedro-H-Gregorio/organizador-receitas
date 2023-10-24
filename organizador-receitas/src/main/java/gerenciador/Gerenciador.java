@@ -9,6 +9,7 @@ import armazenamento.Armazenamento;
 import classes.Ingrediente;
 import classes.Receita;
 import enuns.TipoReceita;
+import enuns.TipoUnidadeMedida;
 
 public class Gerenciador implements IGerenciador {
     @Override
@@ -18,8 +19,13 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
-    public void addIngrediente(Ingrediente ingrediente) {
-        getLastReceita().addIngrediente(ingrediente);
+    public void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, float quantidade) {
+        getLastReceita().addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
+    }
+
+    @Override
+    public void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade) {
+        getReceitaById(receitaId).addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
     }
 
     @Override
