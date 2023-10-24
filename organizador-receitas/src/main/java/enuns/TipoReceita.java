@@ -1,6 +1,7 @@
 package enuns;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public enum TipoReceita {
 
@@ -31,6 +32,7 @@ public enum TipoReceita {
     }
 
     public static String[] getTiposReceitasInString() {
-        return Arrays.stream(TipoReceita.values()).map(TipoReceita::getDescricao).toList().toArray(new String[0]);
+        return Arrays.stream(TipoReceita.values()).map(TipoReceita::getDescricao).collect(Collectors.toList())
+                .toArray(new String[0]);
     }
 }

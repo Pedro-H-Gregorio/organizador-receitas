@@ -1,4 +1,3 @@
-import armazenamento.Armazenamento;
 import classes.Ingrediente;
 import classes.Receita;
 import gerenciador.Gerenciador;
@@ -10,8 +9,9 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         MenuPrincipal menu = new MenuPrincipal();
         Gerenciador gerenciador = new Gerenciador();
-        gerenciador.conectarArmazenamento();
         int opcaoSelecionada;
+
+        gerenciador.conectarArmazenamento();
 
         do {
             opcaoSelecionada = menu.listarOpcoes();
