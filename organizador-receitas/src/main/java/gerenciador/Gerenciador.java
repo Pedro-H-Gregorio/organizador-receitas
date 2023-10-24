@@ -1,5 +1,6 @@
 package gerenciador;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -85,7 +86,18 @@ public class Gerenciador implements IGerenciador {
         Armazenamento.listaReceitas.removeIf(receitas -> receitas.getId() == idReceita);
     }
 
-    private Receita getLastReceita() {
+    @Override
+    public void conectarArmazenamento() {
+        Armazenamento.desserializacao();
+    }
+
+    @Override
+    public void salvarArmazenamento() throws FileNotFoundException {
+        Armazenamento.serializacao();
+    }
+
+    @Override
+    public Receita getLastReceita() {
         return Armazenamento.listaReceitas.get(Armazenamento.listaReceitas.size() - 1);
     }
 }
