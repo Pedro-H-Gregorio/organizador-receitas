@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import classes.Ingrediente;
@@ -56,13 +57,21 @@ public class InterfaceTextual {
     }
 
     public int esperarRespostaInt(String mensagem) {
+        
         int resposta = 0;
         System.out.println("==================================================");
         System.out.print(mensagem);
         do {
-            resposta = ENTRADA.nextInt();
-            if (resposta == 0)
-                escrever("Preencha o campo.");
+            try {
+                resposta = ENTRADA.nextInt();
+                if (resposta == 0)
+                    escrever("Preencha o campo.");
+            } catch (InputMismatchException e) {
+                escrever("Tente Novamente");
+                ENTRADA.nextLine();
+                System.out.println("==================================================");
+                System.out.print(mensagem);
+            }
         } while (resposta == 0);
         return resposta;
     }
@@ -72,9 +81,16 @@ public class InterfaceTextual {
         System.out.println("==================================================");
         System.out.print(mensagem);
         do {
-            resposta = ENTRADA.nextFloat();
-            if (resposta == 0)
-                escrever("Preencha o campo.");
+            try {
+                resposta = ENTRADA.nextFloat();
+                if (resposta == 0)
+                    escrever("Preencha o campo.");
+            } catch (InputMismatchException e) {
+                escrever("Tente Novamente");
+                ENTRADA.nextLine();
+                System.out.println("==================================================");
+                System.out.print(mensagem);
+            }
         } while (resposta == 0);
         return resposta;
     }

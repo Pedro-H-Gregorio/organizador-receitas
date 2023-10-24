@@ -1,13 +1,14 @@
 package enuns;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public enum TipoUnidadeMedida {
     COLHER_SOPA("cs", "Colher de sopa"),
     COLHER_CHA("cc", "Colher de chá"),
     GRAMAS("g", "Gramas"),
     UNIDADE("u", "Unidade"),
-    XICARA("x","Xicara");
+    XICARA("x", "Xicara");
 
     private String key;
     private String descricao;
@@ -26,6 +27,7 @@ public enum TipoUnidadeMedida {
     }
 
     public static String[] getTiposUnidadeMedidaInString() {
-        return Arrays.stream(TipoUnidadeMedida.values()).map(TipoUnidadeMedida::getDescricao).toList().toArray(new String[0]);
+        return Arrays.stream(TipoUnidadeMedida.values()).map(TipoUnidadeMedida::getDescricao)
+                .collect(Collectors.toList()).toArray(new String[0]);
     }
 }
