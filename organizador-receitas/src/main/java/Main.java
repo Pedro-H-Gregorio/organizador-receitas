@@ -1,12 +1,16 @@
+import armazenamento.Armazenamento;
 import classes.Ingrediente;
 import classes.Receita;
 import gerenciador.Gerenciador;
 import ui.MenuPrincipal;
 
+import java.io.FileNotFoundException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         MenuPrincipal menu = new MenuPrincipal();
         Gerenciador gerenciador = new Gerenciador();
+        gerenciador.conectarArmazenamento();
         int opcaoSelecionada;
 
         do {
@@ -30,6 +34,6 @@ public class Main {
             }
             menu.esperarResposta();
         } while (opcaoSelecionada != menu.getOpcoes().size());
-
+        gerenciador.salvarArmazenamento();
     }
 }

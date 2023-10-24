@@ -6,7 +6,8 @@ public enum TipoUnidadeMedida {
     COLHER_SOPA("cs", "Colher de sopa"),
     COLHER_CHA("cc", "Colher de chá"),
     GRAMAS("g", "Gramas"),
-    UNIDADE("u", "Unidade");
+    UNIDADE("u", "Unidade"),
+    XICARA("x","Xicara");
 
     private String key;
     private String descricao;

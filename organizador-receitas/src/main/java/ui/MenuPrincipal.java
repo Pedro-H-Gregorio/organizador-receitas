@@ -54,10 +54,10 @@ public class MenuPrincipal extends InterfaceTextual {
         String modoDePreparo = esperarRespostaTexto(
                 "Escreva o modo de preparo, quando finalizar\npule linha e digite \":q\":\n");
 
-        Receita receita = new Receita(titulo, tipo);
+        Receita receita = new Receita(titulo, tipo); // usar o gerenciador
         for (Ingrediente ingrediente : ingredientes)
-            receita.addIngrediente(ingrediente);
-        receita.setModoDePreparo(modoDePreparo);
+            receita.addIngrediente(ingrediente); // usar gerenciador
+        receita.setModoDePreparo(modoDePreparo); // usar gerenciador
         return receita;
     }
 

@@ -2,7 +2,9 @@ package classes;
 
 import enuns.TipoUnidadeMedida;
 
-public class Ingrediente {
+import java.io.Serializable;
+
+public class Ingrediente implements Serializable {
 
     private float quantidade;
     private TipoUnidadeMedida tipoMedida;
@@ -26,4 +28,15 @@ public class Ingrediente {
         return nome;
     }
 
+    public void setQuantidade(float quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setTipoMedida(TipoUnidadeMedida tipoMedida) {
+        this.tipoMedida = tipoMedida;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
