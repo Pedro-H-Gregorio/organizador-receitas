@@ -78,8 +78,8 @@ public class MenuPrincipal extends InterfaceTextual {
         String titulo = esperarRespostaString("Digite o título da receita: ");
         TipoReceita tipo = escolherTipoReceita();
 
-        criarListaDeIngredientes();
         getGerenciador().add(titulo, tipo);
+        criarListaDeIngredientes();
         getGerenciador().addModoDePreparo(esperarRespostaTexto(
                 "Escreva o modo de preparo, quando finalizar\npule linha e digite \":q\":\n"));
     }
@@ -101,8 +101,7 @@ public class MenuPrincipal extends InterfaceTextual {
                 case 3:
                     escrever("Deletar Ingrediente");
                     listarIngredientes(receitaId);
-
-                    getGerenciador().getReceitaById(receitaId).removeIngrediente(esperarRespostaInt("Escolha: ") - 1);
+                    getGerenciador().removeIngrediente(receitaId, esperarRespostaInt("Escolha: ") - 1);
                     break;
             }
             if (opcaoSelecionada != menu.getOpcoes().size())
