@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import classes.Receita;
 import enuns.TipoReceita;
 import gerenciador.Gerenciador;
 
 public class InterfaceTextual {
     public static final Scanner ENTRADA = new Scanner(System.in);
     private ArrayList<String> opcoes = new ArrayList<>();
+    private Gerenciador gerenciador = new Gerenciador();
     private String titulo;
 
     public InterfaceTextual(String titulo) {
@@ -28,6 +30,10 @@ public class InterfaceTextual {
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public Gerenciador getGerenciador() {
+        return gerenciador;
     }
 
     public ArrayList<String> getOpcoes() {
@@ -141,20 +147,19 @@ public class InterfaceTextual {
     }
 
     public void listarIngredientes(int receitaId) {
-        Gerenciador gerenciador = new Gerenciador();
+        Receita receita = gerenciador.getReceitaById(receitaId);
         escrever("Ingredientes Adicionados");
         System.out.println("==================================================");
-        for (int i = 0; i < gerenciador.getReceitaById(receitaId).getListaIngredientes().size(); i++)
+        for (int i = 0; i < receita.getListaIngredientes().size(); i++)
             System.out.printf("%s - Quantidade: %s%s (%s -> %s) - %s\n", i + 1,
-                    gerenciador.getReceitaById(receitaId).getListaIngredientes().get(i).getQuantidade(),
-                    gerenciador.getReceitaById(receitaId).getListaIngredientes().get(i).getTipoMedida().getKey(),
-                    gerenciador.getReceitaById(receitaId).getListaIngredientes().get(i).getTipoMedida().getKey(),
-                    gerenciador.getReceitaById(receitaId).getListaIngredientes().get(i).getTipoMedida().getDescricao(),
-                    gerenciador.getReceitaById(receitaId).getListaIngredientes().get(i).getNome());
+                    receita.getListaIngredientes().get(i).getQuantidade(),
+                    receita.getListaIngredientes().get(i).getTipoMedida().getKey(),
+                    receita.getListaIngredientes().get(i).getTipoMedida().getKey(),
+                    receita.getListaIngredientes().get(i).getTipoMedida().getDescricao(),
+                    receita.getListaIngredientes().get(i).getNome());
     }
 
     public void listarReceitas() {
-        Gerenciador gerenciador = new Gerenciador();
         escrever("Receitas");
         System.out.println("==================================================");
         if (gerenciador.readReceitas().isEmpty())
@@ -166,7 +171,6 @@ public class InterfaceTextual {
     }
 
     public void listarReceitas(TipoReceita tipo) {
-        Gerenciador gerenciador = new Gerenciador();
         escrever("Receitas");
         System.out.println("==================================================");
         if (gerenciador.readReceitas(tipo).isEmpty())
@@ -178,7 +182,6 @@ public class InterfaceTextual {
     }
 
     public void listarReceitas(String titulo) {
-        Gerenciador gerenciador = new Gerenciador();
         escrever("Receitas");
         System.out.println("==================================================");
         if (gerenciador.readReceitas(titulo).isEmpty())
@@ -191,11 +194,11 @@ public class InterfaceTextual {
     }
 
     public void mostrarReceita(int receitaId) {
-        Gerenciador gerenciador = new Gerenciador();
-        escrever(gerenciador.getReceitaById(receitaId).getTitulo());
-        escrever(gerenciador.getReceitaById(receitaId).getTipo().getDescricao());
+        Receita receita = gerenciador.getReceitaById(receitaId);
+        escrever(receita.getTitulo());
+        escrever(receita.getTipo().getDescricao());
         listarIngredientes(receitaId);
         escrever("Modo de Preparo");
-        escrever(gerenciador.getReceitaById(receitaId).getModoDePreparo());
+        escrever(receita.getModoDePreparo());
     }
 }
