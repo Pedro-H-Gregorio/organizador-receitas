@@ -47,6 +47,7 @@ public class MenuPrincipal extends InterfaceTextual {
         InterfaceTextual buscadorReceita = new InterfaceTextual("Buscar Receita", "Buscar receita pelo nome",
                 "Buscar receita pelo tipo");
         do {
+            listarReceitas();
             switch (buscadorReceita.listarOpcoes()) {
                 case 1:
                     String nome = esperarRespostaString("Digite o nome da receita: ");
