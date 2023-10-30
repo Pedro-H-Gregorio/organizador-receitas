@@ -181,6 +181,17 @@ public class InterfaceTextual {
                         gerenciador.readReceitas(tipo).get(i).getTipo().getDescricao());
     }
 
+    public void listarReceitas(ArrayList<String> ingredientes) {
+        escrever("Receitas");
+        System.out.println("==================================================");
+        if (gerenciador.readReceitas(ingredientes).isEmpty())
+            System.out.println("Lista de receitas vazia.");
+        else
+            for (int i = 0; i < gerenciador.readReceitas(ingredientes).size(); i++)
+                System.out.printf("%s - %-20s | %s\n", i + 1, gerenciador.readReceitas(ingredientes).get(i).getTitulo(),
+                        gerenciador.readReceitas(ingredientes).get(i).getTipo().getDescricao());
+    }
+
     public void listarReceitas(String titulo) {
         escrever("Receitas");
         System.out.println("==================================================");

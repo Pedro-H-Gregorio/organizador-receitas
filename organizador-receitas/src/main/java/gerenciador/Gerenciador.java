@@ -62,6 +62,19 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
+    public ArrayList<Receita> readReceitas(ArrayList<String> ingredientes) {
+        ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+                .filter((receita) -> {
+                    boolean resultado = true;
+                    for (Ingrediente ingrediente : receita.getListaIngredientes())
+                        resultado &= ingredientes.contains(ingrediente.toString().toLowerCase().trim());
+                    return resultado;
+                }))
+                .collect(Collectors.toList());
+        return receitasFiltradas;
+    }
+
+    @Override
     public ArrayList<Receita> readReceitas(String titulo) {
         ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
                 .filter(receita -> receita.getTitulo().toLowerCase().contains(titulo.toLowerCase()))

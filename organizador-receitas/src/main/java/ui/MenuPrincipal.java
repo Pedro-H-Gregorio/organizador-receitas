@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.ArrayList;
+
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
 
@@ -45,7 +47,7 @@ public class MenuPrincipal extends InterfaceTextual {
     public int buscarReceita() {
         int receitaId = -1;
         InterfaceTextual buscadorReceita = new InterfaceTextual("Buscar Receita", "Buscar receita pelo nome",
-                "Buscar receita pelo tipo");
+                "Buscar receita pelo tipo", "Buscar receita por ingredientes");
         do {
             listarReceitas();
             switch (buscadorReceita.listarOpcoes()) {
@@ -66,6 +68,28 @@ public class MenuPrincipal extends InterfaceTextual {
                     else {
                         listarReceitas(tipo);
                         receitaId = getGerenciador().readReceitas(tipo).get(esperarRespostaInt("Escolha: ") - 1)
+                                .getId();
+                    }
+                    break;
+                case 3:
+                    InterfaceTextual criadorIngredientes = new InterfaceTextual("Ingredientes", "Novo Ingrediente",
+                            "Sair");
+                    ArrayList<String> ingredientes = new ArrayList<>();
+                    int opcaoSelecionada;
+
+                    do {
+                        opcaoSelecionada = criadorIngredientes.listarOpcoes();
+                        if (opcaoSelecionada == 1)
+                            ingredientes
+                                    .add(esperarRespostaString("Digite o nome do ingrediente: ").toLowerCase().trim());
+                    } while (opcaoSelecionada != 2);
+
+                    if (getGerenciador().readReceitas(ingredientes).isEmpty())
+                        escrever("Não existe nenhuma receita com estes ingredientes ainda.");
+                    else {
+                        listarReceitas(ingredientes);
+                        receitaId = getGerenciador().readReceitas(ingredientes)
+                                .get(esperarRespostaInt("Escolha: ") - 1)
                                 .getId();
                     }
                     break;
@@ -163,7 +187,7 @@ public class MenuPrincipal extends InterfaceTextual {
                     if (esperarRespostaInt("Tem certeza? (1 - Sim | 2 - Não)\n") == 1) {
                         String TituloDaReceita = getGerenciador().getReceitaById(receitaId).getTitulo();
                         getGerenciador().delete(receitaId);
-                        escrever("Receita de %s deletada com sucesso.",TituloDaReceita);
+                        escrever("Receita de %s deletada com sucesso.", TituloDaReceita);
                         opcaoSelecionada = menu.getOpcoes().size();
                     } else
                         escrever("Deleção cancelada.");

@@ -27,6 +27,8 @@ public interface IGerenciador {
 
     ArrayList<Receita> readReceitas(TipoReceita... tipos);
 
+    ArrayList<Receita> readReceitas(ArrayList<String> ingredientes);
+
     ArrayList<Receita> readReceitas(String titulo);
 
     Receita getReceitaById(int idReceita);
