@@ -47,6 +47,7 @@ public class MenuPrincipal extends InterfaceTextual {
         InterfaceTextual buscadorReceita = new InterfaceTextual("Buscar Receita", "Buscar receita pelo nome",
                 "Buscar receita pelo tipo");
         do {
+            listarReceitas();
             switch (buscadorReceita.listarOpcoes()) {
                 case 1:
                     String nome = esperarRespostaString("Digite o nome da receita: ");
@@ -78,8 +79,8 @@ public class MenuPrincipal extends InterfaceTextual {
         String titulo = esperarRespostaString("Digite o título da receita: ");
         TipoReceita tipo = escolherTipoReceita();
 
-        criarListaDeIngredientes();
         getGerenciador().add(titulo, tipo);
+        criarListaDeIngredientes();
         getGerenciador().addModoDePreparo(esperarRespostaTexto(
                 "Escreva o modo de preparo, quando finalizar\npule linha e digite \":q\":\n"));
     }
@@ -101,8 +102,7 @@ public class MenuPrincipal extends InterfaceTextual {
                 case 3:
                     escrever("Deletar Ingrediente");
                     listarIngredientes(receitaId);
-
-                    getGerenciador().getReceitaById(receitaId).removeIngrediente(esperarRespostaInt("Escolha: ") - 1);
+                    getGerenciador().removeIngrediente(receitaId, esperarRespostaInt("Escolha: ") - 1);
                     break;
             }
             if (opcaoSelecionada != menu.getOpcoes().size())
@@ -161,9 +161,10 @@ public class MenuPrincipal extends InterfaceTextual {
                 case 3:
                     escrever("Deletar Receita");
                     if (esperarRespostaInt("Tem certeza? (1 - Sim | 2 - Não)\n") == 1) {
+                        String tituloDaReceitaDeletada = getGerenciador().getReceitaById(receitaId).getTitulo();
                         getGerenciador().delete(receitaId);
                         escrever("Receita de %s deletada com sucesso.",
-                                getGerenciador().getReceitaById(receitaId).getTitulo());
+                                tituloDaReceitaDeletada);
                         opcaoSelecionada = menu.getOpcoes().size();
                     } else
                         escrever("Deleção cancelada.");
