@@ -19,11 +19,6 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
-    public void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, float quantidade) {
-        getLastReceita().addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
-    }
-
-    @Override
     public void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade) {
         getReceitaById(receitaId).addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
     }
@@ -52,11 +47,6 @@ public class Gerenciador implements IGerenciador {
     @Override
     public void updateTipo(int idReceita, TipoReceita tipo) {
         getReceitaById(idReceita).setTipo(tipo);
-    }
-
-    @Override
-    public void updadeIngrediente(int idReceita, int idIngrediente, Ingrediente ingrediente) {
-        getReceitaById(idReceita).updateIngrediente(idIngrediente, ingrediente);
     }
 
     @Override

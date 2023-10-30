@@ -1,6 +1,5 @@
 package gerenciador;
 
-import classes.Ingrediente;
 import classes.Receita;
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 public interface IGerenciador {
 
     void add(String titulo, TipoReceita tipo);
-
-    void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, float quantidade);
 
     void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade);
 
@@ -25,8 +22,6 @@ public interface IGerenciador {
     void updateModoDePreparo(int idReceita, String modoDePreparo);
 
     void updateTipo(int idReceita, TipoReceita tipo);
-
-    void updadeIngrediente(int idReceita, int idIngrediente, Ingrediente ingrediente);
 
     ArrayList<Receita> readReceitas();
 
