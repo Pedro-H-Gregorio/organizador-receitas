@@ -12,8 +12,6 @@ public interface IGerenciador {
 
     void add(String titulo, TipoReceita tipo);
 
-    void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, float quantidade);
-
     void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade);
 
     void removeIngrediente(int idReceita, int idIngrediente);
@@ -25,8 +23,6 @@ public interface IGerenciador {
     void updateModoDePreparo(int idReceita, String modoDePreparo);
 
     void updateTipo(int idReceita, TipoReceita tipo);
-
-    void updadeIngrediente(int idReceita, int idIngrediente, Ingrediente ingrediente);
 
     ArrayList<Receita> readReceitas();
 

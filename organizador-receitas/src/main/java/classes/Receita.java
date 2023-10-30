@@ -47,11 +47,6 @@ public class Receita implements Serializable {
         this.listaIngredientes.remove(idIngrediente);
     }
 
-    public void updateIngrediente(int idIngrediente, Ingrediente ingrediente) {
-        removeIngrediente(idIngrediente);
-        addIngrediente(ingrediente);
-    }
-
     public String getModoDePreparo() {
         return modoDePreparo;
     }

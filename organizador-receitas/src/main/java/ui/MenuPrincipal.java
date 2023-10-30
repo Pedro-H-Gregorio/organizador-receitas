@@ -161,10 +161,9 @@ public class MenuPrincipal extends InterfaceTextual {
                 case 3:
                     escrever("Deletar Receita");
                     if (esperarRespostaInt("Tem certeza? (1 - Sim | 2 - Não)\n") == 1) {
-                        String tituloDaReceitaDeletada = getGerenciador().getReceitaById(receitaId).getTitulo();
                         getGerenciador().delete(receitaId);
                         escrever("Receita de %s deletada com sucesso.",
-                                tituloDaReceitaDeletada);
+                                getGerenciador().getReceitaById(receitaId).getTitulo());
                         opcaoSelecionada = menu.getOpcoes().size();
                     } else
                         escrever("Deleção cancelada.");
