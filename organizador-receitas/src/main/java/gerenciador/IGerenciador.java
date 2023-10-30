@@ -27,15 +27,11 @@ public interface IGerenciador {
 
     ArrayList<Receita> readReceitas(TipoReceita... tipos);
 
-    ArrayList<Receita> readReceitas(ArrayList<String> ingredientes);
-
     ArrayList<Receita> readReceitas(String titulo);
 
     Receita getReceitaById(int idReceita);
 
     Receita getLastReceita();
-
-    boolean verificarContemIngrediente(int receitaId, String nomeIngrediente);
 
     void delete(int idReceita);
 

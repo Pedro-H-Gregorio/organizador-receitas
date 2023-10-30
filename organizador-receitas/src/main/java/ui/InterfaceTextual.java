@@ -8,7 +8,7 @@ import classes.Receita;
 import enuns.TipoReceita;
 import gerenciador.Gerenciador;
 
-public class InterfaceTextual implements IInterfaceTextual {
+public class InterfaceTextual {
     public static final Scanner ENTRADA = new Scanner(System.in);
     private ArrayList<String> opcoes = new ArrayList<>();
     private Gerenciador gerenciador = new Gerenciador();
@@ -24,53 +24,44 @@ public class InterfaceTextual implements IInterfaceTextual {
             getOpcoes().add(opcao);
     }
 
-    @Override
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
-    @Override
     public String getTitulo() {
         return titulo;
     }
 
-    @Override
     public Gerenciador getGerenciador() {
         return gerenciador;
     }
 
-    @Override
     public ArrayList<String> getOpcoes() {
         return opcoes;
     }
 
-    @Override
     public void listar(ArrayList<?> lista) {
         System.out.println("==================================================");
         for (int i = 0; i < lista.size(); i++)
             System.out.printf("%s - %s%n", i + 1, lista.get(i));
     }
 
-    @Override
     public void listar(String... lista) {
         System.out.println("==================================================");
         for (int i = 0; i < lista.length; i++)
             System.out.printf("%s - %s%n", i + 1, lista[i]);
     }
 
-    @Override
     public void escrever(String mensagem) {
         System.out.println("==================================================");
         System.out.println(mensagem);
     }
 
-    @Override
     public void escrever(String mensagem, Object... args) {
         System.out.println("==================================================");
         System.out.printf(mensagem + "\n", args);
     }
 
-    @Override
     public int esperarRespostaInt(String mensagem) {
 
         int resposta = 0;
@@ -91,7 +82,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         return resposta;
     }
 
-    @Override
     public float esperarRespostaFloat(String mensagem) {
         float resposta = 0;
         System.out.println("==================================================");
@@ -111,7 +101,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         return resposta;
     }
 
-    @Override
     public String esperarRespostaString(String mensagem) {
         String resposta;
         System.out.println("==================================================");
@@ -125,7 +114,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         return resposta;
     }
 
-    @Override
     public String esperarRespostaTexto(String mensagem) {
         System.out.println("==================================================");
         System.out.println(mensagem);
@@ -139,7 +127,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         return texto;
     }
 
-    @Override
     public void esperarResposta() {
         System.out.println("==================================================");
         System.out.print("Pressione o \"Enter\" para continuar...");
@@ -147,7 +134,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         ENTRADA.nextLine();
     }
 
-    @Override
     public int listarOpcoes() {
         int opcaoSelecionada;
         do {
@@ -160,7 +146,6 @@ public class InterfaceTextual implements IInterfaceTextual {
         return opcaoSelecionada;
     }
 
-    @Override
     public void listarIngredientes(int receitaId) {
         Receita receita = gerenciador.getReceitaById(receitaId);
         escrever("Ingredientes Adicionados");
@@ -174,7 +159,6 @@ public class InterfaceTextual implements IInterfaceTextual {
                     receita.getListaIngredientes().get(i).getNome());
     }
 
-    @Override
     public void listarReceitas() {
         escrever("Receitas");
         System.out.println("==================================================");
@@ -186,7 +170,6 @@ public class InterfaceTextual implements IInterfaceTextual {
                         gerenciador.readReceitas().get(i).getTipo().getDescricao());
     }
 
-    @Override
     public void listarReceitas(TipoReceita tipo) {
         escrever("Receitas");
         System.out.println("==================================================");
@@ -198,19 +181,6 @@ public class InterfaceTextual implements IInterfaceTextual {
                         gerenciador.readReceitas(tipo).get(i).getTipo().getDescricao());
     }
 
-    @Override
-    public void listarReceitas(ArrayList<String> ingredientes) {
-        escrever("Receitas");
-        System.out.println("==================================================");
-        if (gerenciador.readReceitas(ingredientes).isEmpty())
-            System.out.println("Lista de receitas vazia.");
-        else
-            for (int i = 0; i < gerenciador.readReceitas(ingredientes).size(); i++)
-                System.out.printf("%s - %-20s | %s\n", i + 1, gerenciador.readReceitas(ingredientes).get(i).getTitulo(),
-                        gerenciador.readReceitas(ingredientes).get(i).getTipo().getDescricao());
-    }
-
-    @Override
     public void listarReceitas(String titulo) {
         escrever("Receitas");
         System.out.println("==================================================");
@@ -223,7 +193,6 @@ public class InterfaceTextual implements IInterfaceTextual {
 
     }
 
-    @Override
     public void mostrarReceita(int receitaId) {
         Receita receita = gerenciador.getReceitaById(receitaId);
         escrever(receita.getTitulo());
