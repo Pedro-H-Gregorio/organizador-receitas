@@ -66,8 +66,8 @@ public class Gerenciador implements IGerenciador {
         ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
                 .filter((receita) -> {
                     boolean resultado = true;
-                    for (Ingrediente ingrediente : receita.getListaIngredientes())
-                        resultado &= ingredientes.contains(ingrediente.toString().toLowerCase().trim());
+                    for (String nomeIngrediente : ingredientes)
+                        resultado &= verificarContemIngrediente(receita.getId(), nomeIngrediente);
                     return resultado;
                 }))
                 .collect(Collectors.toList());
@@ -88,6 +88,14 @@ public class Gerenciador implements IGerenciador {
             if (receita.getId() == id)
                 return receita;
         return null;
+    }
+
+    @Override
+    public boolean verificarContemIngrediente(int receitaId, String nomeIngrediente) {
+        for (Ingrediente ingrediente : getReceitaById(receitaId).getListaIngredientes())
+            if (ingrediente.getNome().toLowerCase().trim().contains(nomeIngrediente.toLowerCase().trim()))
+                return true;
+        return false;
     }
 
     @Override

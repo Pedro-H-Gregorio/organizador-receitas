@@ -35,6 +35,8 @@ public interface IGerenciador {
 
     Receita getLastReceita();
 
+    boolean verificarContemIngrediente(int receitaId, String nomeIngrediente);
+
     void delete(int idReceita);
 
     void conectarArmazenamento();
