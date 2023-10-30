@@ -1,6 +1,5 @@
 package gerenciador;
 
-import classes.Ingrediente;
 import classes.Receita;
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
