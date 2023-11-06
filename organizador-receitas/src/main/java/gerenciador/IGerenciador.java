@@ -1,6 +1,6 @@
 package gerenciador;
 
-import classes.Receita;
+import domain.Receita;
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
 

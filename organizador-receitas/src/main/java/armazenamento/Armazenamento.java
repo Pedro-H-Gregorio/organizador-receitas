@@ -1,6 +1,6 @@
 package armazenamento;
 
-import classes.Receita;
+import domain.Receita;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,4 +38,15 @@ public class Armazenamento {
         }
         id = idMaior;
     }
+
+    public static void add(Receita receita){
+        receita.setId(id);
+        listaReceitas.add(receita);
+        id++;
+    };
+
+    public static void remove(Receita receita){
+        listaReceitas.remove(receita);
+    };
+
 }

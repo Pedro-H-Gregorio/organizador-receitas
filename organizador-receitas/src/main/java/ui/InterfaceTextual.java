@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import classes.Receita;
+import domain.Receita;
 import enuns.TipoReceita;
 import gerenciador.Gerenciador;
 

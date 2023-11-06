@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import armazenamento.Armazenamento;
-import classes.Ingrediente;
-import classes.Receita;
+import domain.Ingrediente;
+import domain.Receita;
 import enuns.TipoReceita;
 import enuns.TipoUnidadeMedida;
 
