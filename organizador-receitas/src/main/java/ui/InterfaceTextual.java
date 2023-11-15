@@ -72,53 +72,60 @@ public class InterfaceTextual implements IInterfaceTextual {
 
     @Override
     public int esperarRespostaInt(String mensagem) {
-
         int resposta = 0;
+
         System.out.println("==================================================");
         System.out.print(mensagem);
-        do {
+
+        do
             try {
                 resposta = ENTRADA.nextInt();
-                if (resposta == 0)
-                    escrever("Preencha o campo.");
+                if (resposta <= 0)
+                    throw new InputMismatchException();
             } catch (InputMismatchException e) {
-                escrever("Tente Novamente");
+                escrever("Preencha o campo com um valor válido.");
                 ENTRADA.nextLine();
                 System.out.println("==================================================");
                 System.out.print(mensagem);
             }
-        } while (resposta == 0);
+        while (resposta <= 0);
         return resposta;
+
     }
 
     @Override
     public float esperarRespostaFloat(String mensagem) {
         float resposta = 0;
+
         System.out.println("==================================================");
         System.out.print(mensagem);
-        do {
+
+        do
             try {
                 resposta = ENTRADA.nextFloat();
-                if (resposta == 0)
-                    escrever("Preencha o campo.");
+                if (resposta <= 0)
+                    throw new InputMismatchException();
             } catch (InputMismatchException e) {
-                escrever("Tente Novamente");
+                escrever("Preencha o campo com um valor válido.");
                 ENTRADA.nextLine();
                 System.out.println("==================================================");
                 System.out.print(mensagem);
             }
-        } while (resposta == 0);
+        while (resposta <= 0);
         return resposta;
+
     }
 
     @Override
     public String esperarRespostaString(String mensagem) {
         String resposta;
+
         System.out.println("==================================================");
         System.out.print(mensagem);
         ENTRADA.nextLine();
+
         do {
-            resposta = ENTRADA.nextLine();
+            resposta = ENTRADA.nextLine().trim();
             if (resposta == "")
                 escrever("Preencha o campo.");
         } while (resposta == "");
@@ -127,10 +134,12 @@ public class InterfaceTextual implements IInterfaceTextual {
 
     @Override
     public String esperarRespostaTexto(String mensagem) {
+        String texto = "", linha = "";
+
         System.out.println("==================================================");
         System.out.println(mensagem);
-        String texto = "", linha = "";
         ENTRADA.nextLine();
+
         do {
             linha = ENTRADA.nextLine();
             if (!linha.endsWith(":q") || linha.length() > 2)
