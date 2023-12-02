@@ -11,7 +11,7 @@ public interface IGerenciador {
 
     void add(String titulo, TipoReceita tipo);
 
-    void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade);
+    void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, String quantidade);
 
     void removeIngrediente(int idReceita, int idIngrediente);
 

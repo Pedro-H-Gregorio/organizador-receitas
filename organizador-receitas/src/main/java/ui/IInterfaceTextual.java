@@ -24,8 +24,6 @@ public interface IInterfaceTextual {
 
     public int esperarRespostaInt(String mensagem);
 
-    public float esperarRespostaFloat(String mensagem);
-
     public String esperarRespostaString(String mensagem);
 
     public String esperarRespostaTexto(String mensagem);

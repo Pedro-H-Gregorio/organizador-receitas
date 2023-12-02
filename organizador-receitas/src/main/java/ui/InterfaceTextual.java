@@ -94,29 +94,6 @@ public class InterfaceTextual implements IInterfaceTextual {
     }
 
     @Override
-    public float esperarRespostaFloat(String mensagem) {
-        float resposta = 0;
-
-        System.out.println("==================================================");
-        System.out.print(mensagem);
-
-        do
-            try {
-                resposta = ENTRADA.nextFloat();
-                if (resposta <= 0)
-                    throw new InputMismatchException();
-            } catch (InputMismatchException e) {
-                escrever("Preencha o campo com um valor válido.");
-                ENTRADA.nextLine();
-                System.out.println("==================================================");
-                System.out.print(mensagem);
-            }
-        while (resposta <= 0);
-        return resposta;
-
-    }
-
-    @Override
     public String esperarRespostaString(String mensagem) {
         String resposta;
 
