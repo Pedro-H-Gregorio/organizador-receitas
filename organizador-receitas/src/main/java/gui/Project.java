@@ -7,6 +7,9 @@ package gui;
 import javax.swing.table.DefaultTableModel;
 import gerenciador.Gerenciador;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  *
  * @author pedro
@@ -29,7 +32,6 @@ public class Project extends javax.swing.JFrame {
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
         Home = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -39,6 +41,7 @@ public class Project extends javax.swing.JFrame {
         pesquisa = new javax.swing.JTextField();
         novo = new javax.swing.JButton();
         filtros = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         jComboBox1.setModel(
@@ -98,7 +101,7 @@ public class Project extends javax.swing.JFrame {
             }
         });
 
-        filtros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/filtro.png"))); // NOI18N
+        filtros.setIcon(new javax.swing.ImageIcon("./images/filtro.png")); // NOI18N
         filtros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filtrosActionPerformed(evt);
@@ -107,7 +110,7 @@ public class Project extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 0, 255));
         jButton1.setIcon(
-                new javax.swing.ImageIcon(getClass().getResource("/gui/images/big-search-len.png"))); // NOI18N
+                new javax.swing.ImageIcon("./images/big-search-len.png")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pesquisaActionPerformed(evt);

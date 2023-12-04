@@ -8,7 +8,7 @@ package gui;
  *
  * @author pedro
  */
-public class TelaNovaReceita extends javax.swing.JInternalFrame {
+public class TelaNovaReceita extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaNovaReceita
@@ -49,8 +49,7 @@ public class TelaNovaReceita extends javax.swing.JInternalFrame {
         salvar = new javax.swing.JButton();
 
         jButton1.setText("Salvar");
-
-        setMaximizable(true);
+        
         setResizable(true);
         setTitle("Receita");
 
