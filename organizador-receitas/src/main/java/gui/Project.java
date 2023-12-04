@@ -4,6 +4,9 @@
  */
 package gui;
 
+import javax.swing.table.DefaultTableModel;
+import gerenciador.Gerenciador;
+
 /**
  *
  * @author pedro
@@ -50,12 +53,7 @@ public class Project extends javax.swing.JFrame {
         Home.setMinimumSize(new java.awt.Dimension(200, 200));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null },
-                        { null, null, null },
-                        { null, null, null },
-                        { null, null, null }
-                },
+                new Object[][] {},
                 new String[] {
                         "Titulo", "Tipo", "Ações"
                 }));
@@ -110,6 +108,11 @@ public class Project extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(204, 0, 255));
         jButton1.setIcon(
                 new javax.swing.ImageIcon(getClass().getResource("/gui/images/big-search-len.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sectionInterationLayout = new javax.swing.GroupLayout(sectionInteration);
         sectionInteration.setLayout(sectionInterationLayout);
@@ -192,14 +195,29 @@ public class Project extends javax.swing.JFrame {
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_novoActionPerformed
         // TODO add your handling code here:
+        new TelaNovaReceita().setVisible(true);
+
     }// GEN-LAST:event_novoActionPerformed
 
     private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_pesquisaActionPerformed
-        // TODO add your handling code here:
+        Gerenciador gerenciador = new Gerenciador();
+        String nome = pesquisa.getText();
+        int i;
+
+        DefaultTableModel tabelaReceitas = (DefaultTableModel) tabela.getModel();
+        for (i = 0; i < tabelaReceitas.getRowCount(); i++)
+            tabelaReceitas.removeRow(i);
+        for (i = 0; i < gerenciador.readReceitas(nome).size(); i++)
+            tabelaReceitas.addRow(new Object[] {
+                    gerenciador.readReceitas().get(i).getTitulo(),
+                    gerenciador.readReceitas().get(i).getTipo().getDescricao(),
+                    "0"
+            });
     }// GEN-LAST:event_pesquisaActionPerformed
 
     private void filtrosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_filtrosActionPerformed
         // TODO add your handling code here:
+        pesquisa.setText("TESTE");
     }// GEN-LAST:event_filtrosActionPerformed
 
     /**
