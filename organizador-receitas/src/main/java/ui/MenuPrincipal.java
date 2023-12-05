@@ -26,7 +26,7 @@ public class MenuPrincipal extends InterfaceTextual {
     public void criarIngrediente(int receitaId) {
         String nome = esperarRespostaString("Digite o nome do ingrediente: ");
         TipoUnidadeMedida unidadeMedida = escolherUnidadeMedida();
-        float quantidade = esperarRespostaFloat(String.format("Digite a quantidade de %s: ", nome));
+        String quantidade = esperarRespostaString(String.format("Digite a quantidade de %s: ", nome));
 
         getGerenciador().addIngrediente(receitaId, nome, unidadeMedida, quantidade);
     }

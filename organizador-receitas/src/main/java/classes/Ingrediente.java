@@ -6,17 +6,17 @@ import java.io.Serializable;
 
 public class Ingrediente implements Serializable {
 
-    private float quantidade;
+    private String quantidade;
     private TipoUnidadeMedida tipoMedida;
     private String nome;
 
-    public Ingrediente(float quantidade, TipoUnidadeMedida tipoMedida, String nome) {
+    public Ingrediente(String quantidade, TipoUnidadeMedida tipoMedida, String nome) {
         this.quantidade = quantidade;
         this.nome = nome;
         this.tipoMedida = tipoMedida;
     }
 
-    public float getQuantidade() {
+    public String getQuantidade() {
         return quantidade;
     }
 
@@ -28,7 +28,7 @@ public class Ingrediente implements Serializable {
         return nome;
     }
 
-    public void setQuantidade(float quantidade) {
+    public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
     }
 

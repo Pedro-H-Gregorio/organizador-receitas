@@ -19,7 +19,7 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
-    public void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, float quantidade) {
+    public void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, String quantidade) {
         getReceitaById(receitaId).addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
     }
 
