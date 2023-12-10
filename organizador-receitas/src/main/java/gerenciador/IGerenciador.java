@@ -11,6 +11,8 @@ public interface IGerenciador {
 
     void add(String titulo, TipoReceita tipo);
 
+    void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, String quantidade);
+
     void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, String quantidade);
 
     void removeIngrediente(int idReceita, int idIngrediente);
@@ -34,6 +36,10 @@ public interface IGerenciador {
     Receita getReceitaById(int idReceita);
 
     Receita getLastReceita();
+
+    String normalizarString(String str);
+
+    boolean verificarContemString(String string, String subString);
 
     boolean verificarContemIngrediente(int receitaId, String nomeIngrediente);
 

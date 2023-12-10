@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 public enum TipoReceita {
 
-    VEGETARIANA("v", "Vegetariano"),
-    MASSA("m", "Massas"),
-    DOCE("d", "Doces"),
+    VEGETARIANA("v", "Vegetariana"),
+    MASSAS("m", "Massas"),
+    DOCES("d", "Doces"),
     CARNES("c", "Carnes"),
     SOBREMESAS("s", "Sobremesas"),
     JANTAR("j", "Jantar"),

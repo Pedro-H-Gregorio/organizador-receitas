@@ -5,19 +5,15 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JButton;
-import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 
 import classes.Receita;
+import enuns.TipoReceita;
 import gerenciador.Gerenciador;
 
 /**
@@ -25,64 +21,16 @@ import gerenciador.Gerenciador;
  * @author pedro
  */
 
-class ButtonColumn extends AbstractCellEditor
-        implements TableCellRenderer, TableCellEditor, ActionListener {
-    JTable table;
-    JButton renderButton;
-    JButton editButton;
-    String text;
-
-    public ButtonColumn(JTable table, int column) {
-        super();
-        this.table = table;
-        renderButton = new JButton();
-
-        editButton = new JButton();
-        editButton.setFocusPainted(false);
-        editButton.addActionListener(this);
-
-        TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(column).setCellRenderer(this);
-        columnModel.getColumn(column).setCellEditor(this);
-    }
-
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        return renderButton;
-    }
-
-    public JButton getRenderButton() {
-        return renderButton;
-    }
-
-    public Component getTableCellEditorComponent(
-            JTable table, Object value, boolean isSelected, int row, int column) {
-        text = (value == null) ? "" : value.toString();
-        editButton.setText(text);
-        return editButton;
-    }
-
-    public Object getCellEditorValue() {
-        return text;
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        fireEditingStopped();
-        System.out.println(e.getActionCommand() + " : " + table.getSelectedRow());
-    }
-}
-
 public class Project extends javax.swing.JFrame {
 
     /**
      * Creates new form Home
      */
     public Project() {
+        gerenciador = new Gerenciador();
         initComponents();
         // Inicia Tabela de Receitas
-        Gerenciador gerenciador = new Gerenciador();
         updateTabelaReceitas(gerenciador.readReceitas());
-
     }
 
     /**
@@ -108,7 +56,7 @@ public class Project extends javax.swing.JFrame {
         filtro = new javax.swing.JComboBox<>();
 
         jComboBox1.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                new javax.swing.DefaultComboBoxModel<>(new String[] { "Título", "Tipo", "Ingrediente" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Organizador de Receitas");
@@ -132,8 +80,34 @@ public class Project extends javax.swing.JFrame {
             tabela.getColumnModel().getColumn(3).setPreferredWidth(32);
 
             // Botões das Colunas
-            editar = new ButtonColumn(tabela, 2);
-            excluir = new ButtonColumn(tabela, 3);
+            editar = new ButtonColumn(tabela, 2) {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fireEditingStopped();
+                    DefaultTableModel tabelaModel = (DefaultTableModel) tabela.getModel();
+                    String tituloReceitaSelecionada = String
+                            .valueOf(tabelaModel.getValueAt(tabela.getSelectedRow(), 0));
+                    int receitaId = gerenciador.readReceitas().stream()
+                            .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
+                            .collect(Collectors.toList()).get(0).getId();
+                    new TelaNovaReceita((receitas) -> updateTabelaReceitas(receitas), receitaId).setVisible(true);
+                }
+            };
+            excluir = new ButtonColumn(tabela, 3) {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fireEditingStopped();
+                    DefaultTableModel tabelaModel = (DefaultTableModel) tabela.getModel();
+                    String tituloReceitaSelecionada = String
+                            .valueOf(tabelaModel.getValueAt(tabela.getSelectedRow(), 0));
+                    int receitaId = gerenciador.readReceitas().stream()
+                            .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
+                            .collect(Collectors.toList()).get(0).getId();
+                    gerenciador.delete(receitaId);
+                    gerenciador.salvarArmazenamento();
+                    updateTabelaReceitas(gerenciador.readReceitas());
+                }
+            };
             editar.getRenderButton().setIcon(new javax.swing.ImageIcon("./images/edit.png"));
             excluir.getRenderButton().setBackground(new Color(0xC80815));
             excluir.getRenderButton().setIcon(new javax.swing.ImageIcon("./images/delete.png"));
@@ -176,16 +150,22 @@ public class Project extends javax.swing.JFrame {
 
         busca.setBackground(new java.awt.Color(204, 0, 255));
         busca.setIcon(new javax.swing.ImageIcon("./images/big-search-len.png")); // NOI18N
+        busca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisaActionPerformed(evt);
+            }
+        });
 
         filtro.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                new javax.swing.DefaultComboBoxModel<>(
+                        new String[] { "Buscar por título", "Buscar por tipo", "Buscar por ingrediente" }));
 
         javax.swing.GroupLayout sectionInterationLayout = new javax.swing.GroupLayout(sectionInteration);
         sectionInteration.setLayout(sectionInterationLayout);
         sectionInterationLayout.setHorizontalGroup(
                 sectionInterationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(sectionInterationLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
+                                .addGap(56, 56, 56)
                                 .addComponent(novo)
                                 .addGap(8, 8, 8)
                                 .addComponent(busca, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
@@ -194,7 +174,7 @@ public class Project extends javax.swing.JFrame {
                                 .addComponent(pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 269,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 128,
+                                .addComponent(filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 148,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         sectionInterationLayout.setVerticalGroup(
@@ -271,21 +251,27 @@ public class Project extends javax.swing.JFrame {
     }
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_novoActionPerformed
-        // TODO add your handling code here:
-        new TelaNovaReceita().setVisible(true);
-
+        new TelaNovaReceita((receitas) -> updateTabelaReceitas(receitas)).setVisible(true);
     }// GEN-LAST:event_novoActionPerformed
 
     private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_pesquisaActionPerformed
-        Gerenciador gerenciador = new Gerenciador();
-        String nome = pesquisa.getText();
-        updateTabelaReceitas(gerenciador.readReceitas(nome));
+        switch (filtro.getSelectedIndex()) {
+            case 0:
+                updateTabelaReceitas(gerenciador.readReceitas(pesquisa.getText()));
+                break;
+            case 1:
+                TipoReceita[] tipos = Arrays.stream(TipoReceita.values()).filter(
+                        tipo -> gerenciador.verificarContemString(tipo.getDescricao(), pesquisa.getText()))
+                        .toArray(size -> new TipoReceita[size]);
+                updateTabelaReceitas(gerenciador.readReceitas(tipos));
+                break;
+            case 2:
+                ArrayList<String> ingredientes = new ArrayList<String>(
+                        Arrays.asList(pesquisa.getText().split("[\\s,]+")));
+                updateTabelaReceitas(gerenciador.readReceitas(ingredientes));
+                break;
+        }
     }// GEN-LAST:event_pesquisaActionPerformed
-
-    private void filtrosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_filtrosActionPerformed
-        // TODO add your handling code here:
-        pesquisa.setText("TESTE");
-    }// GEN-LAST:event_filtrosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Home;
@@ -301,5 +287,6 @@ public class Project extends javax.swing.JFrame {
     private javax.swing.JLabel tituloHeader;
     private ButtonColumn editar;
     private ButtonColumn excluir;
+    private Gerenciador gerenciador;
     // End of variables declaration//GEN-END:variables
 }

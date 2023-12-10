@@ -1,6 +1,6 @@
 package gerenciador;
 
-import java.io.FileNotFoundException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -21,6 +21,11 @@ public class Gerenciador implements IGerenciador {
     @Override
     public void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, String quantidade) {
         getReceitaById(receitaId).addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
+    }
+
+    @Override
+    public void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, String quantidade) {
+        getLastReceita().addIngrediente(new Ingrediente(quantidade, unidadeMedida, nome));
     }
 
     @Override
@@ -77,7 +82,7 @@ public class Gerenciador implements IGerenciador {
     @Override
     public ArrayList<Receita> readReceitas(String titulo) {
         ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
-                .filter(receita -> receita.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .filter(receita -> verificarContemString(receita.getTitulo(), titulo))
                 .collect(Collectors.toList()));
         return receitasFiltradas;
     }
@@ -91,9 +96,22 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
+    public String normalizarString(String str) {
+        return Normalizer
+                .normalize(String.valueOf(str).toLowerCase().trim(),
+                        Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    @Override
+    public boolean verificarContemString(String string, String subString) {
+        return normalizarString(string).contains(normalizarString(subString));
+    }
+
+    @Override
     public boolean verificarContemIngrediente(int receitaId, String nomeIngrediente) {
         for (Ingrediente ingrediente : getReceitaById(receitaId).getListaIngredientes())
-            if (ingrediente.getNome().toLowerCase().trim().contains(nomeIngrediente.toLowerCase().trim()))
+            if (verificarContemString(ingrediente.getNome(), nomeIngrediente))
                 return true;
         return false;
     }
@@ -109,7 +127,7 @@ public class Gerenciador implements IGerenciador {
     }
 
     @Override
-    public void salvarArmazenamento() throws FileNotFoundException {
+    public void salvarArmazenamento() {
         Armazenamento.serializacao();
     }
 

@@ -9,7 +9,7 @@ public class Armazenamento {
     public static ArrayList<Receita> listaReceitas = new ArrayList<>();
     public static int id;
 
-    public static void serializacao() throws FileNotFoundException {
+    public static void serializacao() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("armazenamento.txt"))) {
             out.writeObject(listaReceitas);
         } catch (IOException erro) {
@@ -31,11 +31,9 @@ public class Armazenamento {
 
     private static void setId() {
         int idMaior = 0;
-        for (Receita receita : listaReceitas) {
-            if (receita.getId() >= idMaior) {
+        for (Receita receita : listaReceitas)
+            if (receita.getId() >= idMaior)
                 idMaior = receita.getId() + 1;
-            }
-        }
         id = idMaior;
     }
 }
