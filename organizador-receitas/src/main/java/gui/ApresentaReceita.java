@@ -35,7 +35,8 @@ public class ApresentaReceita extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ingredientesTable = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        modoDePreparoReceita = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        modoDePreparo = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,6 +54,21 @@ public class ApresentaReceita extends javax.swing.JFrame {
 
         ingredientesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -81,7 +97,15 @@ public class ApresentaReceita extends javax.swing.JFrame {
 
         jLabel4.setText("Modo de Preparo:");
 
-        modoDePreparoReceita.setText("modoDePreparoDaReceita");
+        modoDePreparo.setEditable(false);
+        modoDePreparo.setColumns(20);
+        modoDePreparo.setLineWrap(true);
+        modoDePreparo.setRows(5);
+        modoDePreparo.setText("Modo de preparo");
+        modoDePreparo.setToolTipText("");
+        modoDePreparo.setWrapStyleWord(true);
+        modoDePreparo.setMaximumSize(new java.awt.Dimension(113, 22));
+        jScrollPane2.setViewportView(modoDePreparo);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,7 +126,7 @@ public class ApresentaReceita extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(modoDePreparoReceita, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(26, 26, 26)
@@ -129,9 +153,9 @@ public class ApresentaReceita extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(modoDePreparoReceita, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,7 +223,8 @@ public class ApresentaReceita extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField modoDePreparoReceita;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea modoDePreparo;
     private javax.swing.JLabel receitaTitulo;
     private javax.swing.JLabel tipoDaReceita;
     // End of variables declaration//GEN-END:variables
