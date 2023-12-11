@@ -2,7 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package teste;
+package gui;
+
+import javax.swing.table.DefaultTableModel;
+
+import classes.Ingrediente;
+import classes.Receita;
+import gerenciador.Gerenciador;
 
 /**
  *
@@ -13,7 +19,8 @@ public class ApresentaReceita extends javax.swing.JFrame {
     /**
      * Creates new form ApresentaReceita
      */
-    public ApresentaReceita() {
+    public ApresentaReceita(int receitaId) {
+        receita = new Gerenciador().getReceitaById(receitaId);
         initComponents();
     }
 
@@ -38,42 +45,22 @@ public class ApresentaReceita extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         modoDePreparo = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(630, 469));
 
         jLabel1.setText("Titulo:");
 
-        receitaTitulo.setText("receitaTitulo");
+        receitaTitulo.setText(receita.getTitulo());
 
         jLabel2.setText("Tipo da Receita:");
 
-        tipoDaReceita.setText("tipoDaReceita");
+        tipoDaReceita.setText(receita.getTipo().getDescricao());
 
         jLabel3.setText("Ingredientes:");
-
+    
         ingredientesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
+            new Object [][] {},
             new String [] {
                 "Nome", "Tipo da Quantidade", "Quantidade"
             }
@@ -82,7 +69,7 @@ public class ApresentaReceita extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -93,6 +80,14 @@ public class ApresentaReceita extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        DefaultTableModel tabelaModel = (DefaultTableModel) ingredientesTable.getModel();
+        for (Ingrediente ingrediente : receita.getListaIngredientes())
+            tabelaModel.addRow(new Object[] {
+                    ingrediente.getNome(),
+                    ingrediente.getQuantidade(),
+                    ingrediente.getTipoMedida().getDescricao(),
+            });
+
         jScrollPane1.setViewportView(ingredientesTable);
 
         jLabel4.setText("Modo de Preparo:");
@@ -101,8 +96,7 @@ public class ApresentaReceita extends javax.swing.JFrame {
         modoDePreparo.setColumns(20);
         modoDePreparo.setLineWrap(true);
         modoDePreparo.setRows(5);
-        modoDePreparo.setText("Modo de preparo");
-        modoDePreparo.setToolTipText("");
+        modoDePreparo.setText(receita.getModoDePreparo());
         modoDePreparo.setWrapStyleWord(true);
         modoDePreparo.setMaximumSize(new java.awt.Dimension(113, 22));
         jScrollPane2.setViewportView(modoDePreparo);
@@ -180,41 +174,6 @@ public class ApresentaReceita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ApresentaReceita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ApresentaReceita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ApresentaReceita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ApresentaReceita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ApresentaReceita().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ingredientesTable;
     private javax.swing.JLabel jLabel1;
@@ -227,5 +186,6 @@ public class ApresentaReceita extends javax.swing.JFrame {
     private javax.swing.JTextArea modoDePreparo;
     private javax.swing.JLabel receitaTitulo;
     private javax.swing.JLabel tipoDaReceita;
+    private Receita receita;
     // End of variables declaration//GEN-END:variables
 }

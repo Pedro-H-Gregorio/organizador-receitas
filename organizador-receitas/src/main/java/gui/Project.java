@@ -9,7 +9,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import classes.Receita;
@@ -67,10 +70,15 @@ public class Project extends javax.swing.JFrame {
         Home.setMinimumSize(new java.awt.Dimension(200, 200));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] {
-                        "Titulo", "Tipo", "", ""
-                }));
+            new Object[][] {},
+            new String[] {
+                "Titulo", "Tipo", "", ""
+        }) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2 || column == 3;
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         tabela.setRowHeight(32);
         if (tabela.getColumnModel().getColumnCount() > 0) {
@@ -78,6 +86,21 @@ public class Project extends javax.swing.JFrame {
             tabela.getColumnModel().getColumn(2).setMaxWidth(32);
             tabela.getColumnModel().getColumn(3).setMaxWidth(32);
             tabela.getColumnModel().getColumn(3).setPreferredWidth(32);
+
+            // Double Click para visualização da Receita
+            tabela.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        JTable target = (JTable) e.getSource();
+                        String tituloReceitaSelecionada = String
+                            .valueOf(target.getValueAt(tabela.getSelectedRow(), 0));
+                        int receitaId = gerenciador.readReceitas().stream()
+                            .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
+                            .collect(Collectors.toList()).get(0).getId();
+                        new ApresentaReceita(receitaId).setVisible(true);
+                    }
+                }
+            });
 
             // Botões das Colunas
             editar = new ButtonColumn(tabela, 2) {
