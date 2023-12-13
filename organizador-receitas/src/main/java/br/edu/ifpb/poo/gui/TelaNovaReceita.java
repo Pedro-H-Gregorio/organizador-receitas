@@ -2,9 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package gui;
+package br.edu.ifpb.poo.gui;
 
-import gerenciador.Gerenciador;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import br.edu.ifpb.poo.classes.Ingrediente;
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
+import br.edu.ifpb.poo.gerenciador.Gerenciador;
 
 /**
  *
@@ -15,8 +31,28 @@ public class TelaNovaReceita extends javax.swing.JFrame {
     /**
      * Creates new form TelaNovaReceita
      */
-    public TelaNovaReceita() {
+    public TelaNovaReceita(Consumer<ArrayList<Receita>> callback) {
+        this.callback = callback;
+        this.receitaId = -1;
         initComponents();
+    }
+
+    public TelaNovaReceita(Consumer<ArrayList<Receita>> callback, int receitaId) {
+        this.callback = callback;
+        this.receitaId = receitaId;
+        initComponents();
+
+        Receita receita = gerenciador.getReceitaById(receitaId);
+        titulo.setText(receita.getTitulo());
+        for (Ingrediente ingrediente : receita.getListaIngredientes())
+            tabelaIngredientes.addRow(new Object[] {
+                    ingrediente.getNome(),
+                    ingrediente.getQuantidade(),
+                    ingrediente.getTipoMedida().getDescricao(),
+            });
+        tipoReceita.setSelectedIndex(
+                Arrays.asList(TipoReceita.values()).indexOf(receita.getTipo()));
+        modoDePreparo.setText(receita.getModoDePreparo());
     }
 
     /**
@@ -29,13 +65,11 @@ public class TelaNovaReceita extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jButton1 = new javax.swing.JButton();
         painelCrudReceita = new javax.swing.JPanel();
         titulo = new javax.swing.JTextField();
         tipoReceita = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         nomeIngrediente = new javax.swing.JTextField();
@@ -49,43 +83,50 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         modoDePreparo = new javax.swing.JTextArea();
         salvar = new javax.swing.JButton();
-
-        jButton1.setText("Salvar");
+        gerenciador = new Gerenciador();
 
         setTitle("Receita");
 
         tipoReceita.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                new javax.swing.DefaultComboBoxModel<>(new String[] { "Vegetariana", "Massas", "Doces", "Carnes",
+                        "Sobremesas", "Jantar", "Almoço", "Café da Manhã", "Vegana" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {},
                 new String[] {
-                        "Nome", "Quantidade", "Tipo da Quantidade", "Ações"
+                        "Nome", "Quantidade", "Unidade de Medida", "Ações"
                 }) {
             Class[] types = new Class[] {
                     java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3;
+            }
         });
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(3).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(70);
+        jScrollPane3.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabelaIngredientes = (DefaultTableModel) tabela.getModel();
+            tabela.setRowHeight(26);
+            tabela.getColumnModel().getColumn(3).setMinWidth(60);
+            tabela.getColumnModel().getColumn(3).setPreferredWidth(60);
+            tabela.getColumnModel().getColumn(3).setMaxWidth(60);
+            excluir = new ButtonColumn(tabela, 3) {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fireEditingStopped();
+                    tabelaIngredientes.removeRow(tabela.getSelectedRow());
+                }
+            };
+            excluir.getRenderButton().setBackground(new Color(0xC80815));
+            excluir.getRenderButton()
+                    .setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/delete.png")));
         }
 
         jLabel1.setText("Titulo:");
@@ -98,23 +139,32 @@ public class TelaNovaReceita extends javax.swing.JFrame {
 
         add.setBackground(new java.awt.Color(204, 0, 255));
         add.setText("Add");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed();
+            }
+        });
 
-        jLabel5.setText("Tipo:");
+        jLabel5.setText("Unidade de Medida:");
 
         tipoIngrediente.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                new javax.swing.DefaultComboBoxModel<>(
+                        new String[] { "Colher de sopa", "Colher de chá", "Gramas", "Unidade", "Xicara" }));
 
         jLabel6.setText("Modo de Preparo:");
 
         modoDePreparo.setColumns(20);
+        modoDePreparo.setLineWrap(true);
         modoDePreparo.setRows(5);
+        modoDePreparo.setWrapStyleWord(true);
+        modoDePreparo.setMaximumSize(new java.awt.Dimension(113, 22));
         jScrollPane1.setViewportView(modoDePreparo);
 
         salvar.setBackground(new java.awt.Color(0, 204, 51));
         salvar.setText("Salvar");
         salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salvarActionPerformed(evt);
+                salvarActionPerformed();
             }
         });
 
@@ -181,7 +231,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
                                                                 .createParallelGroup(
                                                                         javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addComponent(jLabel5,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 120,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGroup(painelCrudReceitaLayout
                                                                         .createSequentialGroup()
@@ -261,14 +311,69 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_salvarActionPerformed
-        // TODO add your handling code here:
+    private void addActionPerformed() {
+        boolean jaExisteIngrediente = false;
+        for (int i = 0; i < tabelaIngredientes.getRowCount(); i++)
+            if (gerenciador.normalizarString(String.valueOf(tabelaIngredientes.getValueAt(i, 0)))
+                    .equals(gerenciador.normalizarString(nomeIngrediente.getText())))
+                jaExisteIngrediente = true;
+        if (jaExisteIngrediente || nomeIngrediente.getText().length() == 0)
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Adicione um nome ao ingrediente ou verifique se já não há este ingrediente.");
+        else if (quantidadeIngrediente.getText().length() == 0)
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Digite a quantidade do ingrediente.");
+        else {
+            tabelaIngredientes.addRow(new Object[] {
+                    nomeIngrediente.getText(),
+                    quantidadeIngrediente.getText(),
+                    tipoIngrediente.getSelectedItem(),
+            });
+            nomeIngrediente.setText("");
+            quantidadeIngrediente.setText("");
+            tipoIngrediente.setSelectedIndex(0);
+        }
+    }
 
+    private void salvarActionPerformed() {// GEN-FIRST:event_salvarActionPerformed
+        if (!(gerenciador.readReceitas().stream()
+                .filter(receita -> gerenciador.normalizarString(receita.getTitulo())
+                        .equals(gerenciador.normalizarString(titulo.getText())))
+                .collect(Collectors.toList()).isEmpty()
+                || (receitaId != -1
+                        && gerenciador.normalizarString(gerenciador.getReceitaById(receitaId).getTitulo())
+                                .equals(gerenciador.normalizarString(titulo.getText()))))
+                || titulo.getText().length() == 0)
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Adicione um título ou verifique se já não há receita com este título.");
+        else if (tabelaIngredientes.getRowCount() == 0)
+            JOptionPane.showMessageDialog(new JFrame(), "Adicione pelo menos um ingrediente.");
+        else {
+            if (receitaId != -1)
+                gerenciador.delete(receitaId);
+            salvarReceita();
+            setVisible(false);
+        }
     }// GEN-LAST:event_salvarActionPerformed
+
+    private void salvarReceita() {
+        gerenciador.add(
+                String.valueOf(titulo.getText()), TipoReceita.values()[tipoReceita.getSelectedIndex()]);
+        for (int i = 0; i < tabela.getRowCount(); i++)
+            gerenciador.addIngrediente(String.valueOf(tabela.getValueAt(i, 0)),
+                    TipoUnidadeMedida.valueOf(
+                            Normalizer.normalize(
+                                    String.valueOf(tabela.getValueAt(i, 2))
+                                            .replace(" ", "_").toUpperCase(),
+                                    Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")),
+                    String.valueOf(tabela.getValueAt(i, 1)));
+        gerenciador.addModoDePreparo(modoDePreparo.getText());
+        gerenciador.salvarArmazenamento();
+        callback.accept(gerenciador.readReceitas());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -277,7 +382,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabela;
     private javax.swing.JTextArea modoDePreparo;
     private javax.swing.JTextField nomeIngrediente;
     private javax.swing.JPanel painelCrudReceita;
@@ -286,5 +391,11 @@ public class TelaNovaReceita extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> tipoIngrediente;
     private javax.swing.JComboBox<String> tipoReceita;
     private javax.swing.JTextField titulo;
+    private ButtonColumn excluir;
+    private Consumer<ArrayList<Receita>> callback;
+    private Gerenciador gerenciador;
+    private DefaultTableModel tabelaIngredientes;
+    private int receitaId;
+
     // End of variables declaration//GEN-END:variables
 }

@@ -1,11 +1,11 @@
-package enuns;
+package br.edu.ifpb.poo.enuns;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum TipoUnidadeMedida {
-    COLHER_SOPA("cs", "Colher de sopa"),
-    COLHER_CHA("cc", "Colher de chá"),
+    COLHER_DE_SOPA("cs", "Colher de sopa"),
+    COLHER_DE_CHA("cc", "Colher de chá"),
     GRAMAS("g", "Gramas"),
     UNIDADE("u", "Unidade"),
     XICARA("x", "Xicara");

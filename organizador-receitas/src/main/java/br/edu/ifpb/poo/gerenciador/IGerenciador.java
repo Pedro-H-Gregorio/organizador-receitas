@@ -1,15 +1,17 @@
-package gerenciador;
-
-import classes.Receita;
-import enuns.TipoReceita;
-import enuns.TipoUnidadeMedida;
+package br.edu.ifpb.poo.gerenciador;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
+
 public interface IGerenciador {
 
     void add(String titulo, TipoReceita tipo);
+
+    void addIngrediente(String nome, TipoUnidadeMedida unidadeMedida, String quantidade);
 
     void addIngrediente(int receitaId, String nome, TipoUnidadeMedida unidadeMedida, String quantidade);
 
@@ -34,6 +36,10 @@ public interface IGerenciador {
     Receita getReceitaById(int idReceita);
 
     Receita getLastReceita();
+
+    String normalizarString(String str);
+
+    boolean verificarContemString(String string, String subString);
 
     boolean verificarContemIngrediente(int receitaId, String nomeIngrediente);
 

@@ -1,9 +1,10 @@
-package classes;
-
-import enuns.TipoReceita;
+package br.edu.ifpb.poo.classes;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ArrayList;
+
+import br.edu.ifpb.poo.enuns.TipoReceita;
 
 public class Receita implements Serializable {
 
@@ -35,7 +36,7 @@ public class Receita implements Serializable {
         this.tipo = tipo;
     }
 
-    public ArrayList<Ingrediente> getListaIngredientes() {
+    public List<Ingrediente> getListaIngredientes() {
         return listaIngredientes;
     }
 
@@ -63,7 +64,7 @@ public class Receita implements Serializable {
         this.id = id;
     }
 
-    public void setListaIngredientes(ArrayList<Ingrediente> listaIngredientes) {
-        this.listaIngredientes = listaIngredientes;
+    public void setListaIngredientes(List<Ingrediente> listaIngredientes) {
+        this.listaIngredientes = (ArrayList<Ingrediente>) listaIngredientes;
     }
 }
