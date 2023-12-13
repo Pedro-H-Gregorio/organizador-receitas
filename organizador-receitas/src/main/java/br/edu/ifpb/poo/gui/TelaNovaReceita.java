@@ -125,7 +125,8 @@ public class TelaNovaReceita extends javax.swing.JFrame {
                 }
             };
             excluir.getRenderButton().setBackground(new Color(0xC80815));
-            excluir.getRenderButton().setIcon(new javax.swing.ImageIcon("./images/delete.png"));
+            excluir.getRenderButton()
+                    .setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/delete.png")));
         }
 
         jLabel1.setText("Titulo:");
