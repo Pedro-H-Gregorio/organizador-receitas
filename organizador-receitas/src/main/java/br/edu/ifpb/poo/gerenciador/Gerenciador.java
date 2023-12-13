@@ -1,21 +1,20 @@
-package gerenciador;
+package br.edu.ifpb.poo.gerenciador;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import armazenamento.Armazenamento;
-import classes.Ingrediente;
-import classes.Receita;
-import enuns.TipoReceita;
-import enuns.TipoUnidadeMedida;
+import br.edu.ifpb.poo.armazenamento.Armazenamento;
+import br.edu.ifpb.poo.classes.Ingrediente;
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
 
 public class Gerenciador implements IGerenciador {
     @Override
     public void add(String titulo, TipoReceita tipo) {
-        Armazenamento.listaReceitas.add(new Receita(Armazenamento.id, titulo, tipo));
-        Armazenamento.id++;
+        Armazenamento.listaReceitas.add(new Receita(Armazenamento.getNewId(), titulo, tipo));
     }
 
     @Override
@@ -61,30 +60,27 @@ public class Gerenciador implements IGerenciador {
 
     @Override
     public ArrayList<Receita> readReceitas(TipoReceita... tipos) {
-        ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
                 .filter(receita -> Arrays.asList(tipos).contains(receita.getTipo()))).collect(Collectors.toList());
-        return receitasFiltradas;
     }
 
     @Override
     public ArrayList<Receita> readReceitas(ArrayList<String> ingredientes) {
-        ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
-                .filter((receita) -> {
+        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+                .filter(receita -> {
                     boolean resultado = true;
                     for (String nomeIngrediente : ingredientes)
                         resultado &= verificarContemIngrediente(receita.getId(), nomeIngrediente);
                     return resultado;
                 }))
                 .collect(Collectors.toList());
-        return receitasFiltradas;
     }
 
     @Override
     public ArrayList<Receita> readReceitas(String titulo) {
-        ArrayList<Receita> receitasFiltradas = (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
                 .filter(receita -> verificarContemString(receita.getTitulo(), titulo))
                 .collect(Collectors.toList()));
-        return receitasFiltradas;
     }
 
     @Override

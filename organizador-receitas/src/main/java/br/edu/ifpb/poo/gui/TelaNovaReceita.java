@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package gui;
+package br.edu.ifpb.poo.gui;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -16,11 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import classes.Ingrediente;
-import classes.Receita;
-import enuns.TipoReceita;
-import enuns.TipoUnidadeMedida;
-import gerenciador.Gerenciador;
+import br.edu.ifpb.poo.classes.Ingrediente;
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
+import br.edu.ifpb.poo.gerenciador.Gerenciador;
 
 /**
  *
@@ -100,6 +100,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
                     java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
@@ -139,7 +140,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         add.setText("Add");
         add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
+                addActionPerformed();
             }
         });
 
@@ -162,7 +163,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         salvar.setText("Salvar");
         salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salvarActionPerformed(evt);
+                salvarActionPerformed();
             }
         });
 
@@ -309,7 +310,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addActionPerformed() {
         boolean jaExisteIngrediente = false;
         for (int i = 0; i < tabelaIngredientes.getRowCount(); i++)
             if (gerenciador.normalizarString(String.valueOf(tabelaIngredientes.getValueAt(i, 0)))
@@ -333,11 +334,11 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         }
     }
 
-    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_salvarActionPerformed
+    private void salvarActionPerformed() {// GEN-FIRST:event_salvarActionPerformed
         if (!(gerenciador.readReceitas().stream()
                 .filter(receita -> gerenciador.normalizarString(receita.getTitulo())
                         .equals(gerenciador.normalizarString(titulo.getText())))
-                .collect(Collectors.toList()).size() == 0
+                .collect(Collectors.toList()).isEmpty()
                 || (receitaId != -1
                         && gerenciador.normalizarString(gerenciador.getReceitaById(receitaId).getTitulo())
                                 .equals(gerenciador.normalizarString(titulo.getText()))))
@@ -362,7 +363,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
                     TipoUnidadeMedida.valueOf(
                             Normalizer.normalize(
                                     String.valueOf(tabela.getValueAt(i, 2))
-                                            .replaceAll(" ", "_").toUpperCase(),
+                                            .replace(" ", "_").toUpperCase(),
                                     Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")),
                     String.valueOf(tabela.getValueAt(i, 1)));
         gerenciador.addModoDePreparo(modoDePreparo.getText());

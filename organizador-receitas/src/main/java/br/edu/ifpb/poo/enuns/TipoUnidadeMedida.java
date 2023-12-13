@@ -1,4 +1,4 @@
-package enuns;
+package br.edu.ifpb.poo.enuns;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

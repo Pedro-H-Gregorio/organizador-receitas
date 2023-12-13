@@ -1,4 +1,4 @@
-package gui;
+package br.edu.ifpb.poo.gui;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;

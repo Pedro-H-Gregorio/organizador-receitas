@@ -1,8 +1,8 @@
-package classes;
-
-import enuns.TipoUnidadeMedida;
+package br.edu.ifpb.poo.classes;
 
 import java.io.Serializable;
+
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
 
 public class Ingrediente implements Serializable {
 

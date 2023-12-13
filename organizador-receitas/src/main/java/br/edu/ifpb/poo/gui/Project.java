@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package gui;
+package br.edu.ifpb.poo.gui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +15,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import classes.Receita;
-import enuns.TipoReceita;
-import gerenciador.Gerenciador;
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.gerenciador.Gerenciador;
 
 /**
  *
@@ -70,10 +70,10 @@ public class Project extends javax.swing.JFrame {
         Home.setMinimumSize(new java.awt.Dimension(200, 200));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object[][] {},
-            new String[] {
-                "Titulo", "Tipo", "", ""
-        }) {
+                new Object[][] {},
+                new String[] {
+                        "Titulo", "Tipo", "", ""
+                }) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 2 || column == 3;
@@ -89,14 +89,15 @@ public class Project extends javax.swing.JFrame {
 
             // Double Click para visualização da Receita
             tabela.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() == 2) {
                         JTable target = (JTable) e.getSource();
                         String tituloReceitaSelecionada = String
-                            .valueOf(target.getValueAt(tabela.getSelectedRow(), 0));
+                                .valueOf(target.getValueAt(tabela.getSelectedRow(), 0));
                         int receitaId = gerenciador.readReceitas().stream()
-                            .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
-                            .collect(Collectors.toList()).get(0).getId();
+                                .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
+                                .collect(Collectors.toList()).get(0).getId();
                         new ApresentaReceita(receitaId).setVisible(true);
                     }
                 }
@@ -113,7 +114,7 @@ public class Project extends javax.swing.JFrame {
                     int receitaId = gerenciador.readReceitas().stream()
                             .filter(receita -> receita.getTitulo().equals(tituloReceitaSelecionada))
                             .collect(Collectors.toList()).get(0).getId();
-                    new TelaNovaReceita((receitas) -> updateTabelaReceitas(receitas), receitaId).setVisible(true);
+                    new TelaNovaReceita(Project.this::updateTabelaReceitas, receitaId).setVisible(true);
                 }
             };
             excluir = new ButtonColumn(tabela, 3) {
@@ -160,14 +161,14 @@ public class Project extends javax.swing.JFrame {
 
         pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pesquisaActionPerformed(evt);
+                pesquisaActionPerformed();
             }
         });
 
         novo.setText("Novo");
         novo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                novoActionPerformed(evt);
+                novoActionPerformed();
             }
         });
 
@@ -175,7 +176,7 @@ public class Project extends javax.swing.JFrame {
         busca.setIcon(new javax.swing.ImageIcon("./images/big-search-len.png")); // NOI18N
         busca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pesquisaActionPerformed(evt);
+                pesquisaActionPerformed();
             }
         });
 
@@ -220,19 +221,19 @@ public class Project extends javax.swing.JFrame {
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(15, 15, 15)));
 
-        javax.swing.GroupLayout HomeLayout = new javax.swing.GroupLayout(Home);
-        Home.setLayout(HomeLayout);
-        HomeLayout.setHorizontalGroup(
-                HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout homeLayout = new javax.swing.GroupLayout(Home);
+        Home.setLayout(homeLayout);
+        homeLayout.setHorizontalGroup(
+                homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(header, javax.swing.GroupLayout.Alignment.TRAILING,
                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                 Short.MAX_VALUE)
                         .addComponent(sectionInteration, javax.swing.GroupLayout.DEFAULT_SIZE,
                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1));
-        HomeLayout.setVerticalGroup(
-                HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HomeLayout.createSequentialGroup()
+        homeLayout.setVerticalGroup(
+                homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeLayout.createSequentialGroup()
                                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
@@ -273,11 +274,11 @@ public class Project extends javax.swing.JFrame {
             });
     }
 
-    private void novoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_novoActionPerformed
-        new TelaNovaReceita((receitas) -> updateTabelaReceitas(receitas)).setVisible(true);
+    private void novoActionPerformed() {// GEN-FIRST:event_novoActionPerformed
+        new TelaNovaReceita(Project.this::updateTabelaReceitas).setVisible(true);
     }// GEN-LAST:event_novoActionPerformed
 
-    private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_pesquisaActionPerformed
+    private void pesquisaActionPerformed() {// GEN-FIRST:event_pesquisaActionPerformed
         switch (filtro.getSelectedIndex()) {
             case 0:
                 updateTabelaReceitas(gerenciador.readReceitas(pesquisa.getText()));
@@ -289,9 +290,11 @@ public class Project extends javax.swing.JFrame {
                 updateTabelaReceitas(gerenciador.readReceitas(tipos));
                 break;
             case 2:
-                ArrayList<String> ingredientes = new ArrayList<String>(
+                ArrayList<String> ingredientes = new ArrayList<>(
                         Arrays.asList(pesquisa.getText().split("[\\s,]+")));
                 updateTabelaReceitas(gerenciador.readReceitas(ingredientes));
+                break;
+            default:
                 break;
         }
     }// GEN-LAST:event_pesquisaActionPerformed

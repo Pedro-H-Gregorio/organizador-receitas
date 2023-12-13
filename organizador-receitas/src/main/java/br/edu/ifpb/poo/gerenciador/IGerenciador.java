@@ -1,11 +1,11 @@
-package gerenciador;
-
-import classes.Receita;
-import enuns.TipoReceita;
-import enuns.TipoUnidadeMedida;
+package br.edu.ifpb.poo.gerenciador;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import br.edu.ifpb.poo.classes.Receita;
+import br.edu.ifpb.poo.enuns.TipoReceita;
+import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
 
 public interface IGerenciador {
 
