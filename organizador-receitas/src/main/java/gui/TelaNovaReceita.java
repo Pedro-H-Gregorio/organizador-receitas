@@ -41,16 +41,18 @@ public class TelaNovaReceita extends javax.swing.JFrame {
         this.callback = callback;
         this.receitaId = receitaId;
         initComponents();
-        titulo.setText(gerenciador.getReceitaById(receitaId).getTitulo());
-        for (Ingrediente ingrediente : gerenciador.getReceitaById(receitaId).getListaIngredientes())
+
+        Receita receita = gerenciador.getReceitaById(receitaId);
+        titulo.setText(receita.getTitulo());
+        for (Ingrediente ingrediente : receita.getListaIngredientes())
             tabelaIngredientes.addRow(new Object[] {
                     ingrediente.getNome(),
                     ingrediente.getQuantidade(),
                     ingrediente.getTipoMedida().getDescricao(),
             });
         tipoReceita.setSelectedIndex(
-                Arrays.asList(TipoReceita.values()).indexOf(gerenciador.getReceitaById(receitaId).getTipo()));
-        modoDePreparo.setText(gerenciador.getReceitaById(receitaId).getModoDePreparo());
+                Arrays.asList(TipoReceita.values()).indexOf(receita.getTipo()));
+        modoDePreparo.setText(receita.getModoDePreparo());
     }
 
     /**
@@ -101,7 +103,7 @@ public class TelaNovaReceita extends javax.swing.JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 3;
