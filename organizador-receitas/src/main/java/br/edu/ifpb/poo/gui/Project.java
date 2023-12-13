@@ -132,9 +132,11 @@ public class Project extends javax.swing.JFrame {
                     updateTabelaReceitas(gerenciador.readReceitas());
                 }
             };
-            editar.getRenderButton().setIcon(new javax.swing.ImageIcon("./images/edit.png"));
+            editar.getRenderButton()
+                    .setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/edit.png")));
             excluir.getRenderButton().setBackground(new Color(0xC80815));
-            excluir.getRenderButton().setIcon(new javax.swing.ImageIcon("./images/delete.png"));
+            excluir.getRenderButton()
+                    .setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/delete.png")));
         }
 
         header.setBackground(new java.awt.Color(204, 0, 255));
@@ -173,7 +175,7 @@ public class Project extends javax.swing.JFrame {
         });
 
         busca.setBackground(new java.awt.Color(204, 0, 255));
-        busca.setIcon(new javax.swing.ImageIcon("./images/big-search-len.png")); // NOI18N
+        busca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/big-search-len.png"))); // NOI18N
         busca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pesquisaActionPerformed();
