@@ -2,11 +2,12 @@ package br.edu.ifpb.poo.armazenamento;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ifpb.poo.classes.Receita;
 
 public class Armazenamento {
-    public static final ArrayList<Receita> listaReceitas = new ArrayList<>();
+    protected static final List<Receita> listaReceitas = new ArrayList<>();
     private static int id;
 
     private Armazenamento() {
@@ -28,10 +29,14 @@ public class Armazenamento {
                 listaReceitas.add(receita);
             setId();
         } catch (IOException erro) {
-            System.out.printf("Erro: %s\n", erro.getMessage());
+            System.out.println(String.format("Erro: %s", erro.getMessage()));
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
+    }
+
+    public static List<Receita> getReceita() {
+        return listaReceitas;
     }
 
     public static int getNewId() {

@@ -14,7 +14,7 @@ import br.edu.ifpb.poo.enuns.TipoUnidadeMedida;
 public class Gerenciador implements IGerenciador {
     @Override
     public void add(String titulo, TipoReceita tipo) {
-        Armazenamento.listaReceitas.add(new Receita(Armazenamento.getNewId(), titulo, tipo));
+        Armazenamento.getReceita().add(new Receita(Armazenamento.getNewId(), titulo, tipo));
     }
 
     @Override
@@ -55,18 +55,18 @@ public class Gerenciador implements IGerenciador {
 
     @Override
     public ArrayList<Receita> readReceitas() {
-        return Armazenamento.listaReceitas;
+        return (ArrayList<Receita>) Armazenamento.getReceita();
     }
 
     @Override
     public ArrayList<Receita> readReceitas(TipoReceita... tipos) {
-        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+        return (ArrayList<Receita>) (Armazenamento.getReceita().stream()
                 .filter(receita -> Arrays.asList(tipos).contains(receita.getTipo()))).collect(Collectors.toList());
     }
 
     @Override
     public ArrayList<Receita> readReceitas(ArrayList<String> ingredientes) {
-        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+        return (ArrayList<Receita>) (Armazenamento.getReceita().stream()
                 .filter(receita -> {
                     boolean resultado = true;
                     for (String nomeIngrediente : ingredientes)
@@ -78,14 +78,14 @@ public class Gerenciador implements IGerenciador {
 
     @Override
     public ArrayList<Receita> readReceitas(String titulo) {
-        return (ArrayList<Receita>) (Armazenamento.listaReceitas.stream()
+        return (ArrayList<Receita>) (Armazenamento.getReceita().stream()
                 .filter(receita -> verificarContemString(receita.getTitulo(), titulo))
                 .collect(Collectors.toList()));
     }
 
     @Override
     public Receita getReceitaById(int id) {
-        for (Receita receita : Armazenamento.listaReceitas)
+        for (Receita receita : Armazenamento.getReceita())
             if (receita.getId() == id)
                 return receita;
         return null;
@@ -114,7 +114,7 @@ public class Gerenciador implements IGerenciador {
 
     @Override
     public void delete(int idReceita) {
-        Armazenamento.listaReceitas.removeIf(receitas -> receitas.getId() == idReceita);
+        Armazenamento.getReceita().removeIf(receitas -> receitas.getId() == idReceita);
     }
 
     @Override
@@ -129,6 +129,6 @@ public class Gerenciador implements IGerenciador {
 
     @Override
     public Receita getLastReceita() {
-        return Armazenamento.listaReceitas.get(Armazenamento.listaReceitas.size() - 1);
+        return Armazenamento.getReceita().get(Armazenamento.getReceita().size() - 1);
     }
 }
