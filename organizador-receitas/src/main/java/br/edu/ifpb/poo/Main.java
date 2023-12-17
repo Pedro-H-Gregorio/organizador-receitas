@@ -19,7 +19,6 @@ public class Main {
                     null, ex);
         }
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Project().setVisible(true));
     }
 }
